@@ -1,64 +1,72 @@
+import { useState } from 'react';
 import {
   Button,
   Text,
   View,
   FlatList,
-  StyleSheet
+  StyleSheet,
+  Alert,
+  TextInput
 } from 'react-native'
 
 
 const People = [
   {
-    name:'john',
-    age:20
+    name: 'john',
+    age: 20
   },
   {
-    name:'peter',
-    age:23
+    name: 'peter',
+    age: 23
   },
-  {
-    name:'jane',
-    age:19
-  },
-  {
-    name:'smith',
-    age:33
-  },
-  {
-    name:'roan',
-    age:22
-  },
-  {
-    name:'orange',
-    age:30
-  },
+  
 ]
 
 type PersonProps = {
-  name:string;
-  age:number;
+  name: string;
+  age: number;
 }
 
-const ListHeader = ()=> (
-  <View style={styles.listHeader}>
-    <Text style={styles.title}>People List</Text>
-  </View>
-)
-
-const Person = ({name,age}: PersonProps) => (
+const Person = ({ name, age }: PersonProps) => (
   <View style={styles.item}>
     <Text style={styles.script}>My name is {name} and I'm {age} years old</Text>
   </View>
 )
 
 function TabOneScreen({ navigation }: any) {
+  const [name, onChangeName] = useState('');
+  const [age, onChangeAge] = useState('');
+
+  const addPerson = ()=> {
+    People.push({name:name, age:Number(age)})
+    console.log(JSON.stringify(People))
+  }
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <FlatList 
+      <View style={styles.inputContainer}>
+        <TextInput style={styles.input}
+          placeholder='name'
+          onChangeText={onChangeName}
+          value={name}
+          onSubmitEditing={()=>{console.log('submitting')}}
+        />
+        <TextInput style={styles.input}
+          placeholder='age'
+          onChangeText={onChangeAge}
+          value={age}
+          keyboardType='numeric'
+        />
+        <Button 
+          title='Add person'
+          onPress={addPerson}
+        />
+        
+      </View>
+      <FlatList
         data={People}
-        renderItem={({item})=> <Person name={item.name} age={item.age} />}
+        renderItem={({ item }) => <Person name={item.name} age={item.age} />}
         keyExtractor={(item, index) => index.toString()}
-        ListHeaderComponent={<ListHeader />}
       />
       <Button
         title='Go to stackTwo'
@@ -70,6 +78,8 @@ function TabOneScreen({ navigation }: any) {
   )
 }
 
+
+
 const styles = StyleSheet.create({
   item: {
     padding: 30,
@@ -79,12 +89,19 @@ const styles = StyleSheet.create({
   script: {
     fontSize: 20
   },
-  listHeader: {
-    alignItems: 'center',
-    backgroundColor: 'brown',
-  },
+
   title: {
     fontSize: 30
+  },
+  input: {
+    width: '50%',
+    height: 30,
+    borderWidth: 1,
+    margin: 3
+  },
+  inputContainer: {
+    width: '100%',
+    alignItems: 'center'
   }
 })
 
