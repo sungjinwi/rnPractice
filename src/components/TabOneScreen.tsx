@@ -13,20 +13,23 @@ import {
 type PersonProps = {
   name: string;
   age: number;
+  index: number;
 }
 
-const Person = ({ name, age }: PersonProps) => (
-  <View style={styles.item}>
-    <Text style={styles.script}>My name is {name} and I'm {age} years old</Text>
-    <TouchableOpacity 
-      style={{backgroundColor:'red', width:60, height:40}}
-    >
-      <Text style={{fontSize:20}}>delete</Text>
-    </TouchableOpacity>
-  </View>
-)
 
 function TabOneScreen({ navigation }: any) {
+
+  const Person = ({ name, age, index }: PersonProps) => (
+    <View style={styles.item}>
+      <Text style={styles.script}>My name is {name} and I'm {age} years old</Text>
+      <TouchableOpacity
+        onPress={()=>removePerson(index)}
+        style={{backgroundColor:'red', width:70, height:40}}
+      >
+        <Text style={{fontSize:20}}>remove</Text>
+      </TouchableOpacity>
+    </View>
+  )
 
   const [people,setPeople] = useState(
     [
@@ -48,7 +51,13 @@ function TabOneScreen({ navigation }: any) {
     setPeople([...people, {name:name, age:Number(age)}])
   }
 
-  
+  const removePerson = (index:number) => {
+    people.splice(index,1);
+
+    // array에 담기는 변수는 주소값이기 때문에 단순히 push, splice로는 변화시킬 수 없고
+    // 비구조화 할당으로 다시 본인을 할당하면 state가 변하면서 rerencdering 된다 
+    setPeople([...people]);
+  }
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -73,7 +82,7 @@ function TabOneScreen({ navigation }: any) {
       </View>
       <FlatList
         data={people}
-        renderItem={({ item }) => <Person name={item.name} age={item.age} />}
+        renderItem={({ item, index }) => <Person name={item.name} age={item.age} index={index} />}
         keyExtractor={(item, index) => index.toString()}
       />
       <Button
