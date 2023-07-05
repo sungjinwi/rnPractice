@@ -13,17 +13,18 @@ import {
 type PersonProps = {
   name: string;
   age: number;
-  index: number;
+  idx: number;
 }
 
 
 function TabOneScreen({ navigation }: any) {
 
-  const Person = ({ name, age, index }: PersonProps) => (
+  const Person = ({ name, age, idx }: PersonProps) => (
     <View style={styles.item}>
       <Text style={styles.script}>My name is {name} and I'm {age} years old</Text>
+      <Text>my idx is {idx}</Text>
       <TouchableOpacity
-        onPress={()=>removePerson(index)}
+        onPress={()=>removePerson(idx)}
         style={{backgroundColor:'red', width:70, height:40}}
       >
         <Text style={{fontSize:20}}>remove</Text>
@@ -31,32 +32,33 @@ function TabOneScreen({ navigation }: any) {
     </View>
   )
 
-  const [people,setPeople] = useState(
-    [
-      {
-        name: 'john',
-        age: 20
-      },
-      {
-        name: 'peter',
-        age: 23
-      },
-    ]
-  )
+  // 만약 더미데이터 없이 useState([])하면 typescript가 빈 배열을 never type으로 인식하기 때문에 따로 type을 지정해줘야한다.
+  const [people,setPeople] = useState<PersonProps[]>([
+    {
+      name: 'john',
+      age: 20,
+      idx:0
+    },
+    {
+      name: 'peter',
+      age: 23,
+      idx:1
+    },
+  ]);
 
   const [name, onChangeName] = useState('');
   const [age, onChangeAge] = useState('');
+  const [idx, setIdx] = useState(people.length);
 
   const addPerson = ()=> {
-    setPeople([...people, {name:name, age:Number(age)}])
+    setPeople([...people, {name, age:Number(age), idx:idx}])
+    setIdx(idx+1);
   }
 
-  const removePerson = (index:number) => {
-    people.splice(index,1);
-
-    // array에 담기는 변수는 주소값이기 때문에 단순히 push, splice로는 변화시킬 수 없고
-    // 비구조화 할당으로 다시 본인을 할당하면 state가 변하면서 rerencdering 된다 
-    setPeople([...people]);
+  const removePerson = (idx:number) => {
+    const newPeople = people.filter((person)=>person.idx !== idx)
+    
+    setPeople(newPeople);
   }
 
   return (
@@ -66,7 +68,6 @@ function TabOneScreen({ navigation }: any) {
           placeholder='name'
           onChangeText={onChangeName}
           value={name}
-          onSubmitEditing={()=>{console.log('submitting')}}
         />
         <TextInput style={styles.input}
           placeholder='age'
@@ -82,8 +83,8 @@ function TabOneScreen({ navigation }: any) {
       </View>
       <FlatList
         data={people}
-        renderItem={({ item, index }) => <Person name={item.name} age={item.age} index={index} />}
-        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => <Person name={item.name} age={item.age} idx={item.idx} />}
+        keyExtractor={(item) => item.idx.toString()}
       />
       <Button
         title='Go to stackTwo'
