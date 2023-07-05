@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native'
+import { useInput } from '../hooks';
 
 type PersonProps = {
   name: string;
@@ -46,12 +47,12 @@ function TabOneScreen({ navigation }: any) {
     },
   ]);
 
-  const [name, onChangeName] = useState('');
-  const [age, onChangeAge] = useState('');
+  const nameProps = useInput('')
+  const ageProps = useInput('')
   const [idx, setIdx] = useState(people.length);
 
   const addPerson = ()=> {
-    setPeople([...people, {name, age:Number(age), idx:idx}])
+    setPeople([...people, {name:nameProps.value, age:Number(ageProps.value), idx:idx}])
     setIdx(idx+1);
   }
 
@@ -66,14 +67,12 @@ function TabOneScreen({ navigation }: any) {
       <View style={styles.inputContainer}>
         <TextInput style={styles.input}
           placeholder='name'
-          onChangeText={onChangeName}
-          value={name}
+          {...nameProps}
         />
         <TextInput style={styles.input}
           placeholder='age'
-          onChangeText={onChangeAge}
-          value={age}
           keyboardType='numeric'
+          {...ageProps}
         />
         <Button 
           title='Add person'
