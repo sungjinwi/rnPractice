@@ -6,7 +6,7 @@ const useManageList = (initialValue : any[])=> {
     const [idx, setIdx] = useState(initialValue.length);
 
     const addItem = (item:object)=> {
-        setList([...list, {...item, idx:idx}]);
+        setList([...list, {...item, idx}]);
         setIdx(idx+1);
 
         console.log(`${JSON.stringify(item)} added to list`);

@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native'
-import { useInput, useManageList } from '../hooks';
+import { useInput, useManageList, useManagePeople } from '../hooks';
 
 
 interface PersonProps {
@@ -36,15 +36,9 @@ function TabOneScreen({ navigation }: any) {
 
   // customHook으로 input 및 people관리 수정
 
-  const nameProps = useInput('');
-  const ageProps = useInput('');
+  const managePeople = useManagePeople(dummy);
 
-  const {value:name} = nameProps;
-  const {value:age} = ageProps;
-
-  const managePeople = useManageList(dummy);
-
-  const { list:people ,addItem: addPerson, removeItem: removePerson } = managePeople;
+  const {nameProps, ageProps, people, addPerson, removePerson} = managePeople;
 
   const Person = ({ name, age, idx }: PersonProps) => (
     <View style={styles.item}>
@@ -73,7 +67,7 @@ function TabOneScreen({ navigation }: any) {
         />
         <Button 
           title='Add person'
-          onPress={()=>addPerson({name, age})}
+          onPress={addPerson}
         />
         
       </View>
