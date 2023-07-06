@@ -2,12 +2,13 @@ import useInput from "./useInput";
 import useManageList from "./useManageList";
 
 
-const useManagePeople = (initialValue: any[]) => {
+const useManagePeople = <T,>(initialValue: T[]) => {
     const nameProps = useInput('');
     const ageProps = useInput('');
 
     const {value:name} = nameProps;
-    const {value:age} = ageProps;
+    const {value:stringAge} = ageProps;
+    const age = Number(stringAge);
 
     const managePeople = useManageList(initialValue);
 
