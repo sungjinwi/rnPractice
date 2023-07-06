@@ -36,8 +36,11 @@ function TabOneScreen({ navigation }: any) {
 
   // customHook으로 input 및 people관리 수정
 
-  const nameProps = useInput('')
-  const ageProps = useInput('')
+  const nameProps = useInput('');
+  const ageProps = useInput('');
+
+  const {value:name} = nameProps;
+  const {value:age} = ageProps;
 
   const managePeople = useManageList(dummy);
 
@@ -70,14 +73,13 @@ function TabOneScreen({ navigation }: any) {
         />
         <Button 
           title='Add person'
-          // onPress={addPerson}
-          onPress={()=>addPerson({name:nameProps.value, age:ageProps.value})}
+          onPress={()=>addPerson({name, age})}
         />
         
       </View>
       <FlatList
         data={people}
-        renderItem={({ item, index }) => <Person name={item.name} age={item.age} idx={item.idx} />}
+        renderItem={({ item }) => <Person name={item.name} age={item.age} idx={item.idx} />}
         keyExtractor={(item) => item.idx.toString()}
       />
       <Button
