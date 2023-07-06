@@ -9,16 +9,39 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native'
-import { useInput } from '../hooks';
+import { useInput, useManageList } from '../hooks';
 
-type PersonProps = {
+
+interface PersonProps {
   name: string;
   age: number;
   idx: number;
 }
 
+const dummy = [
+  {
+    name: 'john',
+    age: 20,
+    idx:0
+  },
+  {
+    name: 'peter',
+    age: 23,
+    idx:1
+  },
+]
+
 
 function TabOneScreen({ navigation }: any) {
+
+  // customHook으로 input 및 people관리 수정
+
+  const nameProps = useInput('')
+  const ageProps = useInput('')
+
+  const managePeople = useManageList(dummy);
+
+  const { list:people ,addItem: addPerson, removeItem: removePerson } = managePeople;
 
   const Person = ({ name, age, idx }: PersonProps) => (
     <View style={styles.item}>
@@ -33,36 +56,7 @@ function TabOneScreen({ navigation }: any) {
     </View>
   )
 
-  // 만약 더미데이터 없이 useState([])하면 typescript가 빈 배열을 never type으로 인식하기 때문에 따로 type을 지정해줘야한다.
-  const [people,setPeople] = useState<PersonProps[]>([
-    {
-      name: 'john',
-      age: 20,
-      idx:0
-    },
-    {
-      name: 'peter',
-      age: 23,
-      idx:1
-    },
-  ]);
-
-  const nameProps = useInput('')
-  const ageProps = useInput('')
-  const [idx, setIdx] = useState(people.length);
-
-  const addPerson = ()=> {
-    setPeople([...people, {name:nameProps.value, age:Number(ageProps.value), idx:idx}])
-    setIdx(idx+1);
-  }
-
-  const removePerson = (idx:number) => {
-    const newPeople = people.filter((person)=>person.idx !== idx)
-    
-    setPeople(newPeople);
-  }
-
-  return (
+    return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View style={styles.inputContainer}>
         <TextInput style={styles.input}
@@ -76,7 +70,8 @@ function TabOneScreen({ navigation }: any) {
         />
         <Button 
           title='Add person'
-          onPress={addPerson}
+          // onPress={addPerson}
+          onPress={()=>addPerson({name:nameProps.value, age:ageProps.value})}
         />
         
       </View>
