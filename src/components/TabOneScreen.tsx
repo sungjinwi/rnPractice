@@ -36,7 +36,7 @@ function TabOneScreen({ navigation }: any) {
 
   // customHook으로 input 및 people관리 수정
 
-  const managePeople = useManagePeople<PersonProps>(dummy);
+  const managePeople = useManagePeople(dummy);
 
   const {nameProps, ageProps, people, addPerson, removePerson} = managePeople;
 
