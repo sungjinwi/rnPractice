@@ -8,6 +8,9 @@ function TabTwoScreen() {
     return (
         <Stack.Navigator
             initialRouteName="StackOne"
+            screenOptions={{
+                headerShown:false
+            }}
         >
             <Stack.Screen name='StackOne' component={StackOneScreen} />
             <Stack.Screen name='StackTwo' component={StackTwoScreen} />
