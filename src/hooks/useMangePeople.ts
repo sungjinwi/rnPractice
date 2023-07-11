@@ -1,11 +1,6 @@
+import { PersonProps } from "../common/types";
 import useInput from "./useInput";
 import useManageList from "./useManageList";
-
-interface PersonProps {
-    name: string;
-    age: number;
-    idx: number;
-}
 
 
 const useManagePeople = (initialValue: PersonProps[]) => {

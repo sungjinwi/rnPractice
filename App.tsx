@@ -18,27 +18,25 @@ import {
     useColorScheme,
     View,
 } from 'react-native';
-import { TabOneScreen, TabTwoScreen } from './src/components';
-import { PeopleContext } from './src/context';
-import { useManagePeople } from './src/hooks';
-import { peopleDummy } from './src/assets'; 
+import { PeopleContextProvider,
+    TabOneScreen,
+    TabTwoScreen,
+} from './src/components';
 
 const Tab = createBottomTabNavigator();
 
 function App(): JSX.Element {
 
-    const managePeople = useManagePeople(peopleDummy);
-
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <PeopleContext.Provider value={managePeople}>
+            <PeopleContextProvider>
                 <NavigationContainer>
                     <Tab.Navigator>
                         <Tab.Screen name="TabOne" component={TabOneScreen} />
                         <Tab.Screen name="TabTwo" component={TabTwoScreen} />
                     </Tab.Navigator>
                 </NavigationContainer>
-            </PeopleContext.Provider>
+            </PeopleContextProvider>
         </SafeAreaView>
     );
 }
