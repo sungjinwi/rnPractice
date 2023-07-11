@@ -26,7 +26,7 @@ const useManagePeople = (initialValue: PersonProps[]) => {
         ageProps,
         people,
         // 일단 dummy로 idx:0 추가해서 기능되게 구현
-        addPerson:()=>{addItem({name, age,idx:0})},
+        addPerson:()=>{addItem({name, age, idx:0})},
         removePerson
     }
 }

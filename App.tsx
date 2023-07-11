@@ -20,14 +20,31 @@ import {
 } from 'react-native';
 import { TabOneScreen, TabTwoScreen } from './src/components';
 import { PeopleContext } from './src/context';
+import { useManagePeople } from './src/hooks';
 
 const Tab = createBottomTabNavigator();
 
+
+const dummy = [
+    {
+        name: 'john',
+        age: 20,
+        idx: 0
+    },
+    {
+        name: 'peter',
+        age: 23,
+        idx: 1
+    },
+]
+
 function App(): JSX.Element {
+
+    const managePeople = useManagePeople(dummy);
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <PeopleContext.Provider value={1}>
+            <PeopleContext.Provider value={managePeople}>
                 <NavigationContainer>
                     <Tab.Navigator>
                         <Tab.Screen name="TabOne" component={TabOneScreen} />

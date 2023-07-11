@@ -9,30 +9,11 @@ age: number;
 idx: number;
 }
 
-const dummy = [
-    {
-        name: 'john',
-        age: 20,
-        idx: 0
-    },
-    {
-        name: 'peter',
-        age: 23,
-        idx: 1
-    },
-]
-
-
 function StackOneScreen({ navigation }: any) {
 
-    const peopleObject = useContext(PeopleContext);
-    console.log(peopleObject)
+    // Context로 props관리
 
-    // customHook으로 input 및 people관리 수정
-
-    const managePeople = useManagePeople(dummy);
-
-    const { nameProps, ageProps, people, addPerson, removePerson } = managePeople;
+    const { nameProps, ageProps, people, addPerson, removePerson } = useContext(PeopleContext);
 
     const Person = ({ name, age, idx }: PersonProps) => (
         <View style={styles.item}>
@@ -64,7 +45,6 @@ function StackOneScreen({ navigation }: any) {
                         title='Add person'
                         onPress={addPerson}
                     />
-
                 </View>
                 <FlatList
                     data={people}
