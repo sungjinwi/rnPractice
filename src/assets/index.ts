@@ -1,1 +1,1 @@
-export {default as peopleDummy} from './peopleDummy'
+export {default as peopleDummy} from './peopleDummy';

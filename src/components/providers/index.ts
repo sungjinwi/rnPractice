@@ -1,1 +1,1 @@
-export {default as PeopleContextProvider} from './PeopleContextProvider'
+export {default as PeopleContextProvider} from './PeopleContextProvider';
