@@ -21,26 +21,13 @@ import {
 import { TabOneScreen, TabTwoScreen } from './src/components';
 import { PeopleContext } from './src/context';
 import { useManagePeople } from './src/hooks';
+import { peopleDummy } from './src/assets'; 
 
 const Tab = createBottomTabNavigator();
 
-
-const dummy = [
-    {
-        name: 'john',
-        age: 20,
-        idx: 0
-    },
-    {
-        name: 'peter',
-        age: 23,
-        idx: 1
-    },
-]
-
 function App(): JSX.Element {
 
-    const managePeople = useManagePeople(dummy);
+    const managePeople = useManagePeople(peopleDummy);
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
