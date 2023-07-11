@@ -1,6 +1,6 @@
 import { Button, FlatList, StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
 import { useContext } from "react";
-import { PeopleContext } from "../context";
+import { PeopleContext } from "../../contexts";
 
 
 
@@ -9,8 +9,6 @@ function StackOneScreen({ navigation }: any) {
     // Context로 props관리
 
     const { nameProps, ageProps, people, addPerson, removePerson } = useContext(PeopleContext);
-
-    
 
     return (
         <>

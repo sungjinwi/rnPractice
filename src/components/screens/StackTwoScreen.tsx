@@ -1,12 +1,9 @@
 import { useContext } from "react";
 import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { PeopleContext } from "../context";
+import { PeopleContext } from "../../contexts";
+import { PersonProps } from "../../common/types";
 
-interface PersonProps {
-    name: string;
-    age: number;
-    idx: number;
-    }
+
 
 function StackTwoScreen({ navigation }: any) {
     
@@ -33,7 +30,6 @@ function StackTwoScreen({ navigation }: any) {
                     renderItem={({ item }) => <Person name={item.name} age={item.age} idx={item.idx} />}
                     keyExtractor={(item) => item.idx.toString()}
                 />
-            
             <Button
                 title='Go back'
                 onPress={()=>{
